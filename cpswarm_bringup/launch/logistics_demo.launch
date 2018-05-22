@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="visual" default="true" />
+    <arg name="map" default="logistics_warehouse" />
+    <param name="use_sim_time" value="true" />
+
+    <arg name="launch_robot_a" default="true"/>
+    <arg name="map_file_a" default="$(arg map_file_a)"/>
+	<arg name="gmapping_robot_a" default="$(arg gmapping_robot_a)"/>
+	<arg name="move_base_robot_a" default="$(arg move_base_robot_a)"/>
+	<arg name="amcl_and_mapserver_a" default="$(arg amcl_and_mapserver_a)"/>
+	<arg name="x_init_pose_robot_a" default="0.0" />
+	<arg name="y_init_pose_robot_a" default="-1.0" />
+	<arg name="a_init_pose_robot_a" default="0.0" />
+
+	<arg name="launch_robot_b" default="false"/>
+	<arg name="gmapping_robot_b" default="$(arg gmapping_robot_b)"/>
+	<arg name="move_base_robot_b" default="$(arg move_base_robot_b)"/>
+	<arg name="amcl_and_mapserver_b" default="$(arg amcl_and_mapserver_b)"/>
+	<arg name="map_file_b" default="$(arg map_file_b)"/>
+	<arg name="x_init_pose_robot_b" default="0.0" />
+	<arg name="y_init_pose_robot_b" default="0.0" />
+	<arg name="a_init_pose_robot_b" default="0.0" />
+	
+    <arg name="launch_robot_c" default="false"/>
+    <arg name="gmapping_robot_c" default="$(arg gmapping_robot_c)"/>
+	<arg name="move_base_robot_c" default="$(arg move_base_robot_c)"/>
+	<arg name="amcl_and_mapserver_c" default="$(arg amcl_and_mapserver_c)"/>
+	<arg name="map_file_c" default="$(arg map_file_c)"/>
+	<arg name="x_init_pose_robot_c" default="0.0" />
+	<arg name="y_init_pose_robot_c" default="1.0" />
+	<arg name="a_init_pose_robot_c" default="0.0" />
+    
+    <!-- gazebo: the simulator -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="debug" value="false" />
+        <arg name="gui" value="$(arg visual)" />
+        <arg name="world_name" value="$(find cpswarm_bringup)/worlds/logistics.world" />
+    </include>
+    
+    <!-- robot 0 -->
+    <include if="$(arg launch_robot_a)" file="$(find cpswarm_bringup)/launch/turtle_i.launch">
+        <arg name="robot" value="robot_0" />
+        <arg name="map" value="$(arg map)" />
+		<arg name="initial_pose_x" value="$(arg x_init_pose_robot_a)"/>
+		<arg name="initial_pose_y" value="$(arg y_init_pose_robot_a)"/>
+		<arg name="initial_pose_a" value="$(arg a_init_pose_robot_a)"/>
+		<arg name="launch_amcl_and_mapserver" value="$(arg amcl_and_mapserver_a)"/>
+		<arg name="launch_gmapping" value="$(arg gmapping_robot_a)"/>
+		<arg name="launch_move_base" value="$(arg move_base_robot_a)"/>
+    </include>
+    
+    <!-- robot 1 -->
+    <include if="$(arg launch_robot_b)" file="$(find cpswarm_bringup)/launch/turtle_i.launch">
+        <arg name="robot" value="robot_1" />
+        <arg name="map" value="$(arg map)" />
+		<arg name="initial_pose_x" value="$(arg x_init_pose_robot_b)"/>
+		<arg name="initial_pose_y" value="$(arg y_init_pose_robot_b)"/>
+		<arg name="initial_pose_a" value="$(arg a_init_pose_robot_b)"/>
+		<arg name="launch_amcl_and_mapserver" value="$(arg amcl_and_mapserver_b)"/>
+		<arg name="launch_gmapping" value="$(arg gmapping_robot_b)"/>
+		<arg name="launch_move_base" value="$(arg move_base_robot_b)"/>
+    </include>
+    
+    <!-- robot 2 -->
+    <include if="$(arg launch_robot_c)" file="$(find cpswarm_bringup)/launch/turtle_i.launch">
+        <arg name="robot" value="robot_2" />
+        <arg name="map" value="$(arg map)" />
+		<arg name="initial_pose_x" value="$(arg x_init_pose_robot_c)"/>
+		<arg name="initial_pose_y" value="$(arg y_init_pose_robot_c)"/>
+		<arg name="initial_pose_a" value="$(arg a_init_pose_robot_c)"/>
+		<arg name="launch_amcl_and_mapserver" value="$(arg amcl_and_mapserver_c)"/>
+		<arg name="launch_gmapping" value="$(arg gmapping_robot_c)"/>
+		<arg name="launch_move_base" value="$(arg move_base_robot_c)"/>
+    </include>
+</launch>
+

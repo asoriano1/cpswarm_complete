@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+
+<!--save map with: rosrun map_server map_saver -f /tmp/my_map-->	
+	
+	<arg name="prefix" default="robot_0_"/>
+
+  <include file="$(find turtlebot_navigation)/launch/includes/gmapping/gmapping.launch.xml">
+    <arg name="base_frame"  value="$(arg prefix)base_footprint"/>
+    <arg name="odom_frame"  value="$(arg prefix)odom"/>
+    <!--arg name="scan_topic"  value="$(arg prefix)/scan"/-->
+  </include>
+  
+</launch>

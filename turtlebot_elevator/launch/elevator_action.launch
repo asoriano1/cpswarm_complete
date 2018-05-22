@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="digital_out_topic"  default="mobile_base/commands/digital_output"/>
+  <arg name="action_name"        default="set_elevator"/>
+  <arg name="simulation"         default="$(optenv TURTLEBOT_SIMULATION false)"/>
+
+  <node name="elevator_node" pkg="turtlebot_elevator" type="elevator_action.py" output="screen"> 
+     <param name="digital_out_topic" value="$(arg digital_out_topic)"/>
+     <param name="action_name" value="$(arg action_name)"/>
+     <param name="simulation" value="$(arg simulation)"/>
+  </node>
+</launch>

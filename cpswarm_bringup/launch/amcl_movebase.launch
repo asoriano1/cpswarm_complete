@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="robot_id" default="robot_0"/>
+    <arg name="prefix" default="$(arg robot_id)_"/>
+    
+    <!-- Map server -->
+    <arg name="map_file" default="$(env TURTLEBOT_MAP_FILE)"/>
+    <arg name="initial_pose_x" default="0.0" />
+    <arg name="initial_pose_y" default="0.0" />
+    <arg name="initial_pose_a" default="0.0" />
+    
+    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)">
+        <param name="frame_id" value="$(arg prefix)map"/>
+    </node>
+
+    <!-- AMCL -->
+    <include file="$(find turtlebot_navigation)/launch/includes/amcl/amcl.launch.xml">
+        <arg name="odom_frame_id"   value="$(arg prefix)odom"/>
+        <arg name="base_frame_id" value="$(arg prefix)base_footprint"/>
+        <arg name="global_frame_id" value="$(arg prefix)map"/>
+        <arg name="initial_pose_x" value="$(arg initial_pose_x)" />
+        <arg name="initial_pose_y" value="$(arg initial_pose_y)" />
+        <arg name="initial_pose_a" value="$(arg initial_pose_a)" />
+    </include>
+
+    <!-- Move base -->
+    <include file="$(find cpswarm_bringup)/launch/move_base.launch.xml">
+        <arg name="odom_frame_id"   value="$(arg prefix)odom"/>
+        <arg name="base_frame_id"   value="$(arg prefix)base_footprint"/>
+        <arg name="global_frame_id" value="$(arg prefix)map"/>
+        <arg name="sensor_frame" value="$(arg prefix)laser_link"/>
+        <arg name="odom_topic" default="$(arg robot_id)/odom" />
+		<arg name="laser_topic" default="$(arg prefix)scan" />
+    </include>
+
+</launch>
+
