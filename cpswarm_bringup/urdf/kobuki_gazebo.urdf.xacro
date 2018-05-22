@@ -174,9 +174,9 @@
 
 	  <gazebo>
 	    <plugin name="kobuki_controller" filename="libgazebo_ros_kobuki.so">
-		  <odom_frame>/${prefix_frame}odom</odom_frame>
-		  <base_link_frame>/${prefix_frame}base_link</base_link_frame>
-		  <base_footprint_frame>/${prefix_frame}base_footprint</base_footprint_frame>
+		  <odom_frame>${prefix_frame}odom</odom_frame>
+		  <base_link_frame>${prefix_frame}base_link</base_link_frame>
+		  <base_footprint_frame>${prefix_frame}base_footprint</base_footprint_frame>
 	      <publish_tf>1</publish_tf>
 	      <left_wheel_joint_name>${prefix_frame}wheel_left_joint</left_wheel_joint_name>
 	      <right_wheel_joint_name>${prefix_frame}wheel_right_joint</right_wheel_joint_name>
@@ -189,9 +189,11 @@
 	      <cliff_sensor_right_name>cliff_sensor_right</cliff_sensor_right_name>
 	      <cliff_detection_threshold>0.04</cliff_detection_threshold>
 	      <bumper_name>bumpers</bumper_name>
-        <imu_name>/${prefix_frame}imu</imu_name>
+	      <ignoreTfPrefix>1</ignoreTfPrefix>
+        <imu_name>imu</imu_name>
 	    </plugin>
 	  </gazebo>
+	  
 	  <!--gazebo>
 		<plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
 			<alwaysOn>true</alwaysOn>
