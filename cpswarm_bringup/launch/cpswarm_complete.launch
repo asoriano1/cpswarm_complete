@@ -86,9 +86,9 @@
 		<arg name="map_file_c" value="$(arg map_file_c)"/>
 
     </include>
-    <group if="$(arg sim)" ns="robot_1">
+    <group if="$(arg sim)" ns="robot_0">
 		<!-- Pad teleoperation for one robot-->
-		<!--include file="$(find cpswarm_bringup)/launch/$(arg pad_model).launch"/-->
+		<include file="$(find cpswarm_bringup)/launch/$(arg pad_model).launch"/>
 	</group>
 	
 </launch>

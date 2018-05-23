@@ -2,50 +2,33 @@
     ROS navigation stack with velocity smoother and safety (reactive) controller
 -->
 <launch>
-  <!-- include file="$(find turtlebot_navigation)/launch/includes/velocity_smoother.launch.xml"/>
-  <include file="$(find turtlebot_navigation)/launch/includes/safety_controller.launch.xml"/ -->
-  
-  <arg name="odom_frame_id"   default="odom"/>
-  <arg name="base_frame_id"   default="base_footprint"/>
-  <arg name="global_frame_id" default="map"/>
-  <arg name="odom_topic" default="odom" />
-  <arg name="laser_topic" default="scan" />
-  <arg name="custom_param_file" default="$(find turtlebot_navigation)/param/dummy.yaml"/>
-  <arg name="sensor_frame" default="laser_link"/>
+
+  <arg name="robot_id" default="robot_0"/>
+  <arg name="prefix" default="$(arg robot_id)_"/>
   <arg name="matter_orientation" default="true"/>    
 
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+	<rosparam file="$(find cpswarm_bringup)/launch/param/move_base_params.yaml" command="load" />
     <rosparam file="$(find cpswarm_bringup)/launch/param/costmap_common_params.yaml" command="load" ns="global_costmap" />
-    <rosparam file="$(find cpswarm_bringup)/launch/param/costmap_common_params.yaml" command="load" ns="local_costmap" />   
+    <rosparam file="$(find cpswarm_bringup)/launch/param/costmap_common_params.yaml" command="load" ns="local_costmap" />       
     <rosparam file="$(find cpswarm_bringup)/launch/param/local_costmap_params.yaml" command="load" />
-    <rosparam file="$(find cpswarm_bringup)/launch/param/global_costmap_params.yaml" command="load" />
-    <!--rosparam file="$(find turtlebot_navigation)/param/dwa_local_planner_params.yaml" command="load" /-->
+    <rosparam file="$(find cpswarm_bringup)/launch/param/global_costmap_params_map.yaml" command="load" />
     <rosparam file="$(find cpswarm_bringup)/launch/param/teb_local_planner_params.yaml" command="load" />
-    <rosparam file="$(find cpswarm_bringup)/launch/param/move_base_params.yaml" command="load" />
-    <rosparam file="$(find cpswarm_bringup)/launch/param/global_planner_params.yaml" command="load"/>
-    <rosparam file="$(find cpswarm_bringup)/launch/param/navfn_global_planner_params.yaml" command="load" />
-    <!-- external params file that could be loaded into the move_base namespace -->
-    <!-- rosparam file="$(arg custom_param_file)" command="load" / -->
     
-    <!-- reset frame_id parameters using user input data -->
-    <param name="global_costmap/global_frame" value="$(arg global_frame_id)"/>
-    <param name="global_costmap/robot_base_frame" value="$(arg base_frame_id)"/>
-    <param name="local_costmap/global_frame" value="$(arg odom_frame_id)"/>
-    <param name="local_costmap/robot_base_frame" value="$(arg base_frame_id)"/>
-    <!--param name="DWAPlannerROS/global_frame_id" value="$(arg odom_frame_id)"/-->
-    <param name="obstacle_layer/scan/sensor_frame" value="$(arg sensor_frame)"/>
-    <!--param unless="$(arg matter_orientation)" name="DWAPlannerROS/yaw_goal_tolerance" value="1.750"/-->
-    <param name="TebLocalPlannerROS/map_frame" value="$(arg global_frame_id)"/>
-    <param unless="$(arg matter_orientation)" name="TebLocalPlannerROS/yaw_goal_tolerance" value="1.750"/>
-    <param name="TebLocalPlannerROS/odom_topic" value="$(arg odom_topic)"/>
-    <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" /> 
-    <param name="local_costmap/obstacle_layer/scan/topic" value="$(arg laser_topic)"/>
-    <param name="global_costmap/obstacle_layer/scan/topic" value="$(arg laser_topic)"/>
+        <!-- reset frame_id parameters using user input data -->
+	<param name="global_costmap/obstacle_layer/base_front_laser/sensor_frame" value="$(arg prefix)laser_link"/>
+	<param name="local_costmap/obstacle_layer/base_front_laser/sensor_frame" value="$(arg prefix)laser_link"/>
+	<param name="local_costmap/global_frame" value="$(arg prefix)odom"/>
+	<param name="local_costmap/robot_base_frame" value="$(arg prefix)base_footprint"/>
+	<param name="global_costmap/global_frame" value="$(arg prefix)map"/>
+	<param name="global_costmap/robot_base_frame" value="$(arg prefix)base_footprint"/>
+	<param name="TebLocalPlannerROS/map_frame" value="$(arg prefix)map"/>
+	<param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" /> 
+	<param name="controller_frequency" value="5.0" />
+	<param name="controller_patience" value="15.0" /> 
 
-    <!-- remap from="cmd_vel" to="/navigation_velocity_smoother/raw_cmd_vel"/ -->
+	<remap from="odom" to="/$(arg robot_id)/odom" />   
     <remap from="cmd_vel" to="mobile_base/commands/velocity"/>     
-    <remap from="odom" to="$(arg odom_topic)"/>
-    <remap from="scan" to="$(arg laser_topic)"/>
-    <!--remap from="map" to="/map"/-->
+
   </node>
 </launch>

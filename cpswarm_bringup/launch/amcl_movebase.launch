@@ -25,12 +25,8 @@
 
     <!-- Move base -->
     <include file="$(find cpswarm_bringup)/launch/move_base.launch.xml">
-        <arg name="odom_frame_id"   value="$(arg prefix)odom"/>
-        <arg name="base_frame_id"   value="$(arg prefix)base_footprint"/>
-        <arg name="global_frame_id" value="$(arg prefix)map"/>
-        <arg name="sensor_frame" value="$(arg prefix)laser_link"/>
-        <arg name="odom_topic" default="$(arg robot_id)/odom" />
-		<arg name="laser_topic" default="$(arg prefix)scan" />
+        <arg name="robot_id"   value="$(arg robot_id)"/>
+        <arg name="prefix"   value="$(arg prefix)"/>
     </include>
 
 </launch>
