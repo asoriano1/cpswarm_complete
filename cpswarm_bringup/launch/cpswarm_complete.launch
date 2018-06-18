@@ -12,17 +12,17 @@
 	<arg name="move_base_robot_a" default="true"/>
 	<arg name="amcl_and_mapserver_a" default="true"/>
 
-    <arg name="launch_robot_b" default="false"/>
-    <arg name="map_file_b" default="logistics_warehouse.yaml"/>
+    <arg name="launch_robot_b" default="true"/>
+    <arg name="map_file_b" default="logistics_warehouse"/>
 	<arg name="gmapping_robot_b" default="false"/>
-	<arg name="move_base_robot_b" default="false"/>
-	<arg name="amcl_and_mapserver_b" default="false"/>
+	<arg name="move_base_robot_b" default="true"/>
+	<arg name="amcl_and_mapserver_b" default="true"/>
 	
-    <arg name="launch_robot_c" default="false"/>
-    <arg name="map_file_c" default="logistics_warehouse.yaml"/>
+    <arg name="launch_robot_c" default="true"/>
+    <arg name="map_file_c" default="logistics_warehouse"/>
 	<arg name="gmapping_robot_c" default="false"/>
-	<arg name="move_base_robot_c" default="false"/>
-	<arg name="amcl_and_mapserver_c" default="false"/>
+	<arg name="move_base_robot_c" default="true"/>
+	<arg name="amcl_and_mapserver_c" default="true"/>
     
     <!-- Turtlebot Robot -->
     <group unless="$(arg sim)" ns="$(arg robot_id)">
@@ -86,7 +86,7 @@
 		<arg name="map_file_c" value="$(arg map_file_c)"/>
 
     </include>
-    <group if="$(arg sim)" ns="robot_0">
+    <group if="$(arg sim)" ns="robot_1">
 		<!-- Pad teleoperation for one robot-->
 		<include file="$(find cpswarm_bringup)/launch/$(arg pad_model).launch"/>
 	</group>

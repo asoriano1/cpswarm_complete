@@ -36,7 +36,8 @@
         <include file="$(find turtlebot_elevator)/launch/elevator_action.launch"/>
         
         <!-- Map Server, AMCL and Move Base  -->
-        <include file="$(find cpswarm_bringup)/launch/amcl_movebase.launch">
+        <include if="$(arg launch_move_base)" file="$(find cpswarm_bringup)/launch/amcl_movebase.launch">
+			<arg name="launch_amcl_and_mapserver" value="$(arg launch_amcl_and_mapserver)"/>
 		    <arg name="robot_id" value="$(arg robot)"/>
 		    <arg name="map_file" value="$(find cpswarm_bringup)/maps/$(arg map).yaml" />
 		    <arg name="initial_pose_x" value="$(arg initial_pose_x)" />
