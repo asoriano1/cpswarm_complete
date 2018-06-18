@@ -5,11 +5,12 @@
 	    <transmission name="${prefix_frame}plate_middle_transmission">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="${prefix_frame}plate_middle_joint">
-				<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+				<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
       </joint>  
       <actuator name="${prefix_frame}elevator_motor">
-        <hardwareInterface>PositionJointInterface</hardwareInterface>
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
         <mechanicalReduction>1</mechanicalReduction>
+        <motorTorqueConstant>20</motorTorqueConstant>
       </actuator>
     </transmission>
 	</xacro:macro>
