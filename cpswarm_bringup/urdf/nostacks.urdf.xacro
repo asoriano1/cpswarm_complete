@@ -123,6 +123,12 @@
       <limit lower="0.0" upper="0.1" effort="1.0" velocity="0.05"/>
       <axis xyz="0 0 1"/>
     </joint>  
+    <!--joint name="${prefix_frame}plate_middle_joint" type="fixed">
+      <origin xyz="-0.01364 0.0 0.1914" rpy="0 0 0"/>
+      <parent link="${parent}"/>
+      <child link="${prefix_frame}plate_middle_link"/>      
+    </joint-->  
+    
     <link name="${prefix_frame}plate_middle_link">
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -159,8 +165,8 @@
       </surface>
     </collision>
   </gazebo>
-  <xacro:elevator_transmission prefix_frame="${prefix_frame}" />
-	
+  <!--xacro:elevator_transmission prefix_frame="${prefix_frame}" /-->
+	<xacro:elevator_transmission prefix_frame="${prefix_frame}" />
   </xacro:macro>
 
   
