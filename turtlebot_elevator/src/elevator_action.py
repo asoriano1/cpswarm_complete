@@ -5,6 +5,8 @@ import actionlib
 from std_msgs.msg import Float64
 from turtlebot_elevator.msg import *
 from kobuki_msgs.msg import DigitalOutput
+#from dynamic_reconfigure.server import Server
+import dynamic_reconfigure.client
 
 pub = None
 class ElevatorServer:
@@ -27,8 +29,17 @@ class ElevatorServer:
 
     self.server.start()
     
-
-
+  def setfootprint(self, radius):    	  
+	  client = dynamic_reconfigure.client.Client("move_base/global_costmap")	  
+	  client.update_configuration({"robot_radius":radius-0.2})	  
+	  client = dynamic_reconfigure.client.Client("move_base/local_costmap")	  
+	  client.update_configuration({"robot_radius":radius})
+	  
+  def setmaxvelocity(self, vel):
+	  client = dynamic_reconfigure.client.Client("move_base/TebLocalPlannerROS")	  
+	  client.update_configuration({"max_vel_x":vel})	  
+	  client.update_configuration({"max_vel_theta":vel})
+	  
   def setElevatorCb(self, goal):
     digital_output = DigitalOutput()
     digital_output.mask[0] = True
@@ -38,10 +49,13 @@ class ElevatorServer:
       self.feedback.value = "RAISING"
       digital_output.values[0] = False
       digital_output.values[1] = True  
+      self.setfootprint(0.75)
+      
     elif(goal.pos.value == SetPosition.LOWER):
       self.feedback.value = "LOWERING"
       digital_output.values[1] = False
-      digital_output.values[0] = True    
+      digital_output.values[0] = True
+      self.setfootprint(0.2)    
     else:
       self.feedback.value = "STOPPED"
       self.result.value = False
@@ -60,10 +74,15 @@ class ElevatorServer:
     value = Float64();
     if(goal.pos.value == SetPosition.RAISE):
       self.feedback.value = "RAISING"
-      value.data= 1.0  
+      value.data= 1.0
+      
+      self.setfootprint(0.75)
+      
     elif(goal.pos.value == SetPosition.LOWER):
       self.feedback.value = "LOWERING"
       value.data = 0.0    
+      self.setfootprint(0.2)    
+      self.setmaxvelocity(0.5)   
     else:
       self.feedback.value = "STOPPED"
       self.result.value = False

@@ -253,7 +253,7 @@
       <pose>2 1 0 0 0 0</pose>
     </include>
     
-    <include>
+    <!--include>
       <uri>model://cart2</uri>
       <pose>2 -1 0 0 0 0</pose>
     </include>
@@ -286,7 +286,7 @@
     <include>
       <uri>model://cart2</uri>
       <pose>4 -1 0 0 0 0</pose>
-    </include>
+    </include-->
     
     <!-- My logistic scenario -->
     <include>

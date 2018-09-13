@@ -5,6 +5,7 @@
     <arg name="robot_id" default="robot_0"/>
     <arg name="prefix" default="$(arg robot_id)_"/>
     <arg name="sim"  default="$(optenv TURTLEBOT_SIMULATION true)"/>
+    <arg name="config_yaml" default="$(find robotnik_base_hw_sim)/config/elevator_fake_pickup_gazebo.yaml"/>
     
     <arg name="launch_robot_a" default="true"/>
     <arg name="map_file_a" default="logistics_warehouse"/>
@@ -12,13 +13,13 @@
 	<arg name="move_base_robot_a" default="true"/>
 	<arg name="amcl_and_mapserver_a" default="true"/>
 
-    <arg name="launch_robot_b" default="true"/>
+    <arg name="launch_robot_b" default="false"/>
     <arg name="map_file_b" default="logistics_warehouse"/>
 	<arg name="gmapping_robot_b" default="false"/>
 	<arg name="move_base_robot_b" default="true"/>
 	<arg name="amcl_and_mapserver_b" default="true"/>
 	
-    <arg name="launch_robot_c" default="true"/>
+    <arg name="launch_robot_c" default="false"/>
     <arg name="map_file_c" default="logistics_warehouse"/>
 	<arg name="gmapping_robot_c" default="false"/>
 	<arg name="move_base_robot_c" default="true"/>
@@ -40,22 +41,6 @@
             <arg name="range_max" value="25.0" />
             <arg name="frame_id"  value="$(arg prefix)laser_link"/>
         </include>
-  
-        <!-- Four Tag Laser Locator -->
-        <!--include file="$(find cpswarm_bringup)/launch/four_tag_laser_locator.launch">
-            <arg name="robot_base_frame" value="$(arg prefix)base_footprint"/>
-            <arg name="sensor_frame" value="$(arg prefix)laser_base_link"/>
-            <arg name="fixed_frame" value="$(arg prefix)odom"/>
-            <arg name="min_num_cluster" value="2"/>
-            <arg name="max_num_cluser" value="10"/>
-            <arg name="cluster_tolerance" value="0.05"/>
-            
-            <arg name="tag_distance" value="0.6"/>
-            <arg name="tag_distance_margin" value="0.20"/>
-            
-            <arg name="tag_distance" value="0.5"/>
-            <arg name="tag_distance_margin" value="0.20"/>    
-        </include-->
   
         <!-- Map Server, AMCL and Move Base  -->
         <include file="$(find cpswarm_bringup)/launch/amcl_movebase.launch"/>
@@ -83,12 +68,18 @@
 		<arg name="gmapping_robot_c" value="$(arg gmapping_robot_c)"/>
 		<arg name="move_base_robot_c" value="$(arg move_base_robot_c)"/>
 		<arg name="amcl_and_mapserver_c" value="$(arg amcl_and_mapserver_c)"/>
-		<arg name="map_file_c" value="$(arg map_file_c)"/>
+		<arg name="map_file_c" value="$(arg map_file_c)"/>		
+
+		<!-- fake elevator for gazebo-->			
+		<!--node pkg="robotnik_base_hw_sim" type="elevator_fake_pickup_gazebo.py" name="elevator_fake_pickup_gazebo">
+			<rosparam command="load" file="$(arg config_yaml)" />
+		</node-->
 
     </include>
-    <group if="$(arg sim)" ns="robot_1">
-		<!-- Pad teleoperation for one robot-->
-		<include file="$(find cpswarm_bringup)/launch/$(arg pad_model).launch"/>
-	</group>
+    
+    <!-- TO BE REMOVED: Pad teleoperation for one robot-->
+    <!--group if="$(arg sim)" ns="robot_0">
+		<include file="$(find cpswarm_bringup)/launch/$(arg pad_model).launch"/>				
+	</group-->
 	
 </launch>

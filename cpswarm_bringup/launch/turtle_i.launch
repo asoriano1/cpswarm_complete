@@ -3,6 +3,7 @@
     <arg name="robot" default="robot_0" />
     <arg name="prefix" default="$(arg robot)_"/>
     <arg name="map" default="empty" />
+    <arg name="sim" default="false"/>
 	<arg name="initial_pose_x" default="0.0" />
     <arg name="initial_pose_y" default="0.0" />
     <arg name="initial_pose_a" default="0.0" />
@@ -47,7 +48,13 @@
         
         <include if="$(arg launch_gmapping)" file="$(find cpswarm_bringup)/launch/gmapping.launch">
 			<arg name="prefix" value="$(arg prefix)"/>
-		</include>
+		</include>		
+        
+        <!--robotnik local services -->
+        <include file="$(find robotnik_local_services)/launch/demo_one_robot.launch">
+			<arg name="id_robot" value="$(arg robot)"/>
+			<arg name="sim" value="$(arg sim)"/>
+        </include>
         
         <!--tf static to map to see all robots in rviz-->
         <node pkg="tf" type="static_transform_publisher" name="tf_robot_map_to_map" args="0 0 0 0 0 0 /map /$(arg prefix)map 100"/>

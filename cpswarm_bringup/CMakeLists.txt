@@ -111,10 +111,20 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
+
 include_directories(
-# include
-# ${catkin_INCLUDE_DIRS}
+  include
+  #${Boost_INCLUDE_DIR}
+  ${GAZEBO_INCLUDE_DIRS}
+  ${roscpp_INCLUDE_DIRS}
+  ${catkin_INCLUDE_DIRS}
 )
+
+link_directories(
+  ${GAZEBO_LIBRARY_DIRS}
+)
+
+list(APPEND CMAKE_CXX_FLAGS "${GAZEBO_CXX_FLAGS}")
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
@@ -180,6 +190,20 @@ include_directories(
 #   # myfile2
 #   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 # )
+
+# Install all the model files
+install(DIRECTORY gazebo_models/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/gazebo_models)
+
+# Install all the launch files
+install(DIRECTORY launch/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch)
+
+
+# Configure the setup script
+catkin_add_env_hooks(environment_setup
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/cmake
+  SHELLS sh)
 
 #############
 ## Testing ##

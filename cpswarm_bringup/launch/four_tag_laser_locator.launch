@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<launch>
+    
+    <arg name="base_frame" default="base_link"/>
+    <arg name="sensor_frame" default="laser_base_link"/>
+    <arg name="fixed_frame" default="odom"/>
+    <arg name="object_frame" default="docking_station_contact"/>
+    <arg name="scan_topic_name" default="scan_cloud" />
+    <arg name="min_num_cluster" default="5"/>
+    <arg name="max_num_cluser" default="200"/>
+    <arg name="cluster_tolerance" default="0.1"/>
+    <arg name="tag_distance" default="0.6"/>
+    <arg name="tag_distance_margin" default="0.2"/>
+    <arg name="distance_detection" default="10.0"/>   
+
+    
+    <!-- Laserscan to Pointcloud -->
+    <include file="$(find hector_laserscan_to_pointcloud)/launch/laserscan_to_pointcloud_shadow_filtered.launch">
+        <arg name="target_frame" value="$(arg sensor_frame)"/>
+    </include>
+  
+    <!-- Four Tag Laser Locator -->
+    <include file="$(find robotnik_locator)/launch/FourTagLaserLocator.launch">
+        <arg name="base_frame" value="$(arg base_frame)"/>
+        <arg name="sensor_frame" value="$(arg sensor_frame)"/>
+        <arg name="fixed_frame" value="$(arg fixed_frame)"/>
+		<arg name="object_frame" value="$(arg object_frame)"/>    
+		<arg name="scan_topic_name" value="$(arg scan_topic_name)" />
+        <arg name="min_num_cluster" value="$(arg min_num_cluster)"/>
+        <arg name="max_num_cluser" value="$(arg max_num_cluser)"/>
+        <arg name="cluster_tolerance" value="$(arg cluster_tolerance)"/>
+        <arg name="tag_distance" value="$(arg tag_distance)"/>
+        <arg name="tag_distance_margin" value="$(arg tag_distance_margin)"/>
+        <arg name="distance_detection" value="$(arg distance_detection)"/>
+        
+		
+    </include>
+    
+</launch>
